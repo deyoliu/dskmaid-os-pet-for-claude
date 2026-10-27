@@ -8,6 +8,7 @@ Claude Code loads plugins found in ~/.claude/skills/<name>/ in every new session
 Windows: a directory junction (no admin rights needed). Elsewhere: a symlink.
 """
 import os
+import stat
 import subprocess
 import sys
 from pathlib import Path
@@ -18,7 +19,13 @@ LINK = SKILLS / "dskmaid"
 
 
 def _is_link(path):
-    return path.is_symlink() or (hasattr(path, "is_junction") and path.is_junction())
+    """Junction or symlink. Path.is_junction() needs 3.12; the reparse-point flag works on 3.10+."""
+    try:
+        if os.name == "nt":
+            return bool(os.lstat(path).st_file_attributes & stat.FILE_ATTRIBUTE_REPARSE_POINT)
+        return path.is_symlink()
+    except OSError:
+        return False
 
 
 def _remove_link(path):
