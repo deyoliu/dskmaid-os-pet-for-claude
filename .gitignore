@@ -1,0 +1,21 @@
+# Local, generated or third-party content (see README: installation)
+.deps/
+assets/anim/*.webm
+logs/
+state/
+config.json
+config.json.tmp
+__pycache__/
+*.pyc
+
+# Only the README demo is published; other previews are regenerated locally
+previews/*
+!previews/demo.webp
+
+# Engine-generated API declarations written when Claude Code loads the mod
+claude-plugin/.claude-plugin/types/
+
+# Research notes (other projects' READMEs, retired third-party sprites) and the
+# machine-local agent handoff snapshot
+refs/
+HANDOFF.md
